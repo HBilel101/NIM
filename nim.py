@@ -72,7 +72,7 @@ class Nim():
 
 class NimAI():
 
-    def __init__(self, alpha=0.5, epsilon=0.1):
+    def __init__(self, alpha=0.5, epsilon=0.1,gamma=1):
         """
         Initialize AI with an empty Q-learning dictionary,
         an alpha (learning) rate, and an epsilon rate.
@@ -85,6 +85,7 @@ class NimAI():
         self.q = dict()
         self.alpha = alpha
         self.epsilon = epsilon
+        self.gamma = gamma
 
     def update(self, old_state, action, new_state, reward):
         """
@@ -121,7 +122,7 @@ class NimAI():
         `alpha` is the learning rate, and `new value estimate`
         is the sum of the current reward and estimated future rewards.
         """
-        new_value_estimate = reward + future_rewards
+        new_value_estimate = reward + self.gamma*future_rewards
         self.q[(tuple(state),action)] = old_q + self.alpha * (
             new_value_estimate - old_q
         )        
